@@ -1,12 +1,19 @@
 import json
 import requests
 import sys
-from threading import Thread
+import logging
 from copy import deepcopy
 from flask import Flask, jsonify
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
+
+logger = logging.getLogger('Scrape Server')
+hdlr = logging.FileHandler('log/scraper-server.log')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+hdlr.setFormatter(formatter)
+logger.addHandler(hdlr)
+logger.setLevel(logging.INFO)
 
 SITE_URL = 'http://sugang.snu.ac.kr/sugang/cc/cc100.action'
 
@@ -24,6 +31,7 @@ def fetch(url, lecture_code):
         res = requests.post(url, data=payload, timeout=10)
         return res
     except requests.exceptions.RequestException as RequestException:
+        logger.error(f'{RequestException}, lecture_code: {lecture_code}')
         return None
 
 def parse(response, lecture_number):    
@@ -39,6 +47,7 @@ def parse(response, lecture_number):
     try: 
         return find_data[lecture_number - 1]
     except IndexError:
+        logger.error(f'{IndexError}, lecture_number: {lecture_number}')
         return None
 
 
@@ -58,7 +67,7 @@ def scrape(lecture_code, lecture_number):
 
 if __name__ == "__main__":
     try:
-        if sys.argv[1] == '-debug':
+        if sys.argv[1] == '--debug':
             app.run(debug=True)
     except IndexError:
         print('Run with gunicorn or with the "-debug" option.')
