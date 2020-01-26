@@ -70,4 +70,4 @@ if __name__ == "__main__":
         if sys.argv[1] == '--debug':
             app.run(debug=True)
     except IndexError:
-        print('Run with gunicorn or with the "-debug" option.')
+        print('Run with gunicorn or with the "--debug" option.')
