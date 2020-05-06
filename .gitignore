@@ -6,3 +6,9 @@ venv/
 
 # log files
 *.log
+
+# params file
+Params.txt
+
+# zappa_settings
+zappa_settings.json
