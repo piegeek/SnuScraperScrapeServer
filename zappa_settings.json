@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "app_function": "scrape_server.app",
+        "profile_name": "default",
+        "project_name": "snuscraperscrap",
+        "runtime": "python3.7",
+        "s3_bucket": "zappa-up2c0mmzv",
+        "aws_region": "ap-northeast-2"
+    }
+}
